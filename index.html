@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel = "stylesheet" type="text/css" href="index_style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.js "></script>
+    <style>
+        @font-face {
+            font-family: RobotoBold;
+            src: url("http://10.20.2.219:8000/actum/fonts/robotobold.ttf");
+        }
+        @font-face {
+            font-family: RobotoLight;
+            src: url("http://10.20.2.219:8000/actum/fonts/robotolight.ttf");
+        }
+    </style>
+    <title>Actum_Hack</title>
+</head>
+
+<header>
+    <div class="menu-bar">
+        <ul class="menu-main">
+            <li><a id="My_page_btn" onclick="loadpage(0)" style="margin-left: calc(50% - 120px*1.5)">Моя страница</a></li>
+            <li><a id="Rating_btn" onclick="loadpage(1)">Рейтинги</a></li>
+            <li><a id="My_team_btn" onclick="loadpage(2)">Моя команда</a></li>
+            <img src="http://10.20.2.219:8000/actum/last/coin.png" style="float: right; margin-top: 13px; margin-right: 20px;">
+            <li><a id = "money" style="float: right; cursor: default;"></a></li>
+            <li><a id = "name_on_bar" style="float:right; margin-right: 60px; width:200px">ФИО</a></li>
+        </ul>
+    </div>
+</header>
+
+<body>
+<div class="back">
+    <div class="popup" id="popup" style="display: none;text-align: center; width: 20%; height: 20%; position: fixed; bottom: 70%; right:70%; background-color: #ffffff; box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);";>
+        <text id="popup_text" style="font-family: RobotoLight; text-align: center;">
+
+        </text>
+        <button style="width: 70px; height: 30px;" onclick="closeForm()">
+            Закрыть
+        </button>
+    </div>
+    <div class="content" id="content">
+    </div>
+</div>
+</body>
+
+<script>
+
+    const localhost = "http://10.20.2.219:8000";
+
+    function loadpage(i) {
+
+        var cont = document.getElementById("content");
+
+        switch (i) {
+            case 0:
+                cont.innerHTML = '<div class="left_side">\n' +
+                    '            <div class="avatar_container">\n' +
+                    '                <img src="http://10.20.2.219:8000/actum/images/6.jpg" width="100%" height="100%">\n' +
+                    '<div class="mult_container" onclick="openForm(0)" style="position: relative; right: 0px; top:-40px; font-size: 40px;"><text id="mult"></text></div>' +
+                    '            </div>\n' +
+                    '            <div class="notifications_place">\n' +
+                    '                <table id="notifications" style="height: 300px; display: flex; flex-direction: column; background-color: #ffffff">\n' +
+                    '\n' +
+                    '                </table>\n' +
+                    '            </div>\n' +
+                    '        </div>\n' +
+                    '        <div class="right_side">\n' +
+                    '            <div class="personal_information" style="box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);border-radius: 20px;">\n' +
+                    '                <a id = "name_place">Имя:</a>\n' +
+                    '                <a id = "job_position">Раса:</a>\n' +
+                    '                <a style="cursor: pointer" onclick="loadpage(2)" id = "team">Дом:</a>\n' +
+                    '            </div>\n' +
+                    '            <div class="score_information">\n' +
+                    '                <div class="pers_score_col" style="display: flex; flex-direction: column; margin-top: 20px; box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);border-radius: 20px; background-color: #ffffff; width: 30%">\n' +
+                    '                    <div class="personal_score" style="">\n' +
+                    '                        <div class="personal_score_number">\n' +
+                    '                         <text style="margin-left: 23px;" id="personal_score_number">N</text>\n' +
+                    '                        </div>\n' +
+                    '                    <div class="personal_score_static">\n' +
+                    '                        <text style="padding-bottom: 4px">\n' +
+                    '                            счёт\n' +
+                    '                        </text>\n' +
+                    '                        <text>\n' +
+                    '                            участника\n' +
+                    '                        </text>\n' +
+                        ' <img src="http://10.20.2.219:8000/actum/last/coin.png" style="float: right; margin-top: 2px; margin-right: 20px;">' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '                    <div class="personal_comparison_progress" style="">\n' +
+                    '                        <text style="margin-left: 23px;">Очков в день:</text>\n' +
+                    '                        <text id="personal_points_comparison" style="text-align: center;">\n' +
+                    '\n' +
+                    '                        </text>\n' +
+                    '                        <text style="margin-left: 23px;">Заданий в день:</text>\n' +
+                    '                        <text id="personal_tasks_comparison" style="text-align: center">\n' +
+                    '\n' +
+                    '                        </text>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '                <div class="t_score_col" style="display: flex; flex-direction: column; margin-top: 20px; margin-left: 20px; background-color: #ffffff; box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);border-radius: 20px; width: 30%">\n' +
+                    '                    <div class="team_score">\n' +
+                    '                        <div class="team_score_number">\n' +
+                    '                            <text style="margin-left: 23px;" id="team_score_number">N</text>\n' +
+                    '                        </div>\n' +
+                    '                        <div class="team_score_static">\n' +
+                    '                            <text style="padding-bottom: 4px">\n' +
+                    '                                счёт\n' +
+                    '                            </text>\n' +
+                    '                            <text>\n' +
+                    '                                команды\n' +
+                    '                            </text>\n' +
+                            ' <img src="http://10.20.2.219:8000/actum/last/coin.png" style="float: right; margin-top: 2px; margin-right: 20px;">' +
+                    '                        </div>\n' +
+                    '                    </div>\n' +
+                    '                    <div class="team_comparison_progress" style="">\n' +
+                    '                        <text style="margin-left: 23px;">Очков в день:</text>\n' +
+                    '                        <text id="team_points_comparison" style="text-align: center;">\n' +
+                    '\n' +
+                    '                        </text>\n' +
+                    '                        <text style="margin-left: 23px;">Заданий в день:</text>\n' +
+                    '                        <text id="team_tasks_comparison" style="text-align: center">\n' +
+                    '\n' +
+                    '                        </text>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '            <div class="challenges" style="display: flex; flex-direction: row">\n' +
+                    '                <div class="daily_challenges" id="daily_challenges" style="width: 30%; display: flex; flex-direction: column; height: 250px; overflow-y: auto; overflow-x: hidden">\n' +
+                    '\n' +
+                    '                </div>\n' +
+                    '                <div class="sprint_challenges" id="sprint_challenges" style="width: 30%; display: flex; flex-direction: column; height: 250px; overflow-y: auto; overflow-x: hidden; margin-left:20px;">\n' +
+                    '\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '<text style="font-family: RobotoBold">Достижения</text>' +
+                    '            <div class="achievements" id="achievements" style="width: 50%; overflow-x:auto;display: flex; flex-direction: row">' +
+                        '<img src="http://10.20.2.219:8000/actum/awards/1.png" width-100%; height=100%>' +
+                        '<img src="http://10.20.2.219:8000/actum/awards/2.png" width-100%; height=100%>' +
+                        '<img src="http://10.20.2.219:8000/actum/awards/3.png" width-100%; height=100%>' +
+                        '<img src="http://10.20.2.219:8000/actum/awards/4.png" width-100%; height=100%>' +
+                        '<img src="http://10.20.2.219:8000/actum/awards/5.png" width-100%; height=100%>' +
+                        '<img src="http://10.20.2.219:8000/actum/awards/6.png" width-100%; height=100%>' +
+                        '<img src="http://10.20.2.219:8000/actum/awards/7.png" width-100%; height=100%>' +
+                        '<img src="http://10.20.2.219:8000/actum/awards/8.png" width-100%; height=100%>' +
+                        '<img src="http://10.20.2.219:8000/actum/awards/9.png" width-100%; height=100%>' +
+                    '</div>' +
+                    '        </div>';
+                var req = new XMLHttpRequest();
+                req.open("GET", localhost + "/actum/employee/6/", false);
+                req.send(null);
+
+                var global_json = req.response;
+                var obj = JSON.parse(global_json);
+
+                var money = document.getElementById("money");
+
+                money.innerText = obj.points_per_day;
+
+                var mult = document.getElementById("mult");
+                mult.innerHTML = "<font color = red style='cursor: pointer; font-family: RobotoBold; background-color: rgba(150,150,150,.5)'>" + "X" + obj.mult + "</font>";
+
+                var name_on_bar = document.getElementById("name_on_bar");
+                name_on_bar.innerText = obj.name;
+
+                var name_place = document.getElementById("name_place");
+                var job_place = document.getElementById("job_position");
+                var team_place = document.getElementById("team");
+
+                name_place.innerText += " " + obj.name;
+                job_place.innerText += " " + obj.position;
+                team_place.innerText += " " + obj.team;
+
+                var personal_score = document.getElementById("personal_score_number");
+                personal_score.innerHTML = "<font color = #2A6FBF >" + obj.points_per_day + "</font>";
+
+                var team_score = document.getElementById("team_score_number");
+                team_score.innerHTML = "<font color= #2A6FBF>" + obj.team_points_per_day + "</font>";
+
+                var personal_tasks_comparison = document.getElementById("personal_tasks_comparison");
+                if (obj.tasks_per_day>obj.tasks_average)
+                    personal_tasks_comparison.innerHTML = "<font color='green'><b>" + obj.tasks_per_day + "/" + obj.tasks_average + "</b></font>";
+                else
+                    personal_tasks_comparison.innerHTML = "<font color='red'><b>" + obj.tasks_per_day + "/" + obj.tasks_average + "</b></font>";
+
+                var personal_points_comparison = document.getElementById("personal_points_comparison");
+                if (obj.points_per_day>obj.points_average)
+                    personal_points_comparison.innerHTML = "<font color = green><b>" + obj.points_per_day + "/" + obj.points_average + "</b></font>";
+                else
+                    personal_points_comparison.innerHTML = "<font color = red><b>" + obj.points_per_day + "/" + obj.points_average + "</b></font>";
+
+                var team_tasks_comparison = document.getElementById("team_tasks_comparison");
+                if (obj.team_tasks_per_day>obj.team_tasks_average)
+                    team_tasks_comparison.innerHTML = "<font color='green'><b>" + obj.team_tasks_per_day + "/" + obj.team_tasks_average + "</b></font>";
+                else
+                    team_tasks_comparison.innerHTML = "<font color='red'><b>" + obj.team_tasks_per_day + "/" + obj.team_tasks_average + "</b></font>";
+
+                var team_points_comparison = document.getElementById("team_points_comparison");
+                if (obj.team_points_per_day>obj.team_points_average)
+                    team_points_comparison.innerHTML = "<font color='green'><b>" + obj.team_points_per_day + "/" + obj.team_points_average + "</b></font>";
+                else
+                    team_points_comparison.innerHTML = "<font color='red'><b>" + obj.team_points_per_day + "/" + obj.team_points_average + "</b></font>";
+
+
+                var req2 = new XMLHttpRequest();
+                req2.open("GET", localhost + "/actum/events/", false);
+                req2.send(null);
+
+                var events_json = req2.response;
+                var events = JSON.parse(events_json);
+
+                var notifications_table = document.getElementById("notifications");
+
+                var temp_HTML ="<caption style='padding: 3px; font-family: RobotoBold; font-size: 25px; background-color: #ffffff; height: 30px; width: 100%;'>Уведомления</caption>";
+
+                for (var i=0;i<events.length;i++){
+                    temp_HTML+="<tr style='width: 100%; background: url('" + 'http://10.20.2.219:8000/actum/last/scroll.png' + "');'><td style='box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);border-radius: 8px;' align='left'><text style='font-family: RobotoBold; margin-left: 10px; font-size:14px;'><b>Тема: " + events[i].ev_type + "</b></text><br><text style='margin-left: 5px;'>" + events[i].description +"</text></td></tr>";
+                }
+
+
+                notifications_table.innerHTML = temp_HTML;
+
+                var req3 = new XMLHttpRequest();
+                req3.open("GET", localhost + "/actum/challenges/daily", false);
+                req3.send(null);
+
+                var daily_json = req3.response;
+                var daily_deser = JSON.parse(daily_json);
+
+                var daily = document.getElementById("daily_challenges");
+
+                temp_HTML = "<text style='padding: 10px; text-align: center; font-family: RobotoBold; border-bottom: 1px solid #777777;border-top: 1px solid #777777;border-left: 1px solid #777777;border-right: 1px solid #777777; margin-top: 50px; background-color: #ffffff'>Задачи сегодня:</text>"
+
+                for (var i=0;i<daily_deser.length;i++){
+                    temp_HTML+="<text style='padding: 5px; text-align: center; font-family: RobotoLight;  border-bottom: 1px solid #777777;border-left: 1px solid #777777;border-right: 1px solid #777777;'>" + daily_deser[i].description + "</text>";
+                }
+
+                daily.innerHTML = temp_HTML;
+
+                var req4 = new XMLHttpRequest();
+                req4.open("GET", localhost + "/actum/challenges/sprint", false);
+                req4.send(null);
+
+                var sprint_json = req4.response;
+                var sprint_deser = JSON.parse(sprint_json);
+
+                var sprint = document.getElementById("sprint_challenges");
+
+                temp_HTML = "<text style='padding: 10px; text-align: center; font-family: RobotoBold; border-bottom: 1px solid #777777;border-top: 1px solid #777777;border-left: 1px solid #777777;border-right: 1px solid #777777; margin-top: 50px; background-color: #ffffff'>Спринт:</text>"
+
+                for (var i=0;i<daily_deser.length;i++){
+                    temp_HTML+="<text style='padding: 5px; text-align: center; font-family: RobotoLight;  border-bottom: 1px solid #777777;border-left: 1px solid #777777;border-right: 1px solid #777777;'>" + sprint_deser[i].description + "</text>";
+                }
+
+                sprint.innerHTML = temp_HTML;
+
+                break;
+            case (1):
+                cont.innerHTML = "<div class=\"left_bar\" style=\"width: 100%; height: 100%; margin-top: 60px;\">\n" +
+                    "            <table id = \"teams_ratings\" style=\"background-color: white\">\n" +
+                    "\n" +
+                    "            </table>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"right_bar\" style=\"width: 100%; height: 100%; margin-top: 60px;\">\n" +
+                    "            <table id = \"members_ratings\" style=\"background-color: white\">\n" +
+                    "                <tr>\n" +
+                    "                    <th>Место</th>\n" +
+                    "                    <th>Название команды</th>\n" +
+                            "<th>Сумма монеток</th>\n" +
+                    "                </tr>\n" +
+                    "            </table>\n" +
+                    "        </div>";
+                var req = new XMLHttpRequest();
+                req.open("GET", localhost + "/actum/rating/team", false);
+                req.send(null);
+
+                var teams_json = req.response;
+                var teams = JSON.parse(teams_json);
+
+                var teams_place = document.getElementById("teams_ratings");
+
+
+                var temp_HTML = "<tr><th>Место</th><th>Название команды</th><th>Количество монеток</th></tr>";
+
+                for (var i=0;i<teams.length;i++){
+                    temp_HTML+="<tr><td align='center' style='width: 20px;'>" + (String)(i+1) + "</td><td>" + teams[i].name +  "<td>" + teams[i].points_per_day +"<img src=\"http://10.20.2.219:8000/actum/last/coin.png\" style=\"float: right; margin-top: 5px; margin-right: 20px;\"></td>";
+                }
+
+                teams_place.innerHTML = temp_HTML;
+
+                var req2 = new XMLHttpRequest();
+                req2.open("GET", localhost + "/actum/rating/employee", false);
+                req2.send(null);
+
+                var members_json = req2.response;
+                var members = JSON.parse(members_json);
+
+                var members_place = document.getElementById("members_ratings");
+
+
+                temp_HTML = "<tr><th>Место</th><th>Имя участника</th><th>Количество монеток</th></tr>";
+
+                for (var i=0;i<members.length;i++){
+                    temp_HTML+="<tr><td align='center' style='width: 20px'>" + (String)(i+1) + "</td><td>" + members[i].name + "</td><td>" + members[i].points_per_day + "<img src=\"http://10.20.2.219:8000/actum/last/coin.png\" style=\"float: right; margin-top: 5px; margin-right: 20px;\"></td>";
+                }
+
+                members_place.innerHTML = temp_HTML;
+                break;
+            case (2):
+                cont.innerHTML = "<div class=\"team_info\" style=\"display: flex; flex-direction: column; margin-top: 90px; margin-left: 30px; width: 35%\">\n" +
+                    "            <div class=\"team_score_info\" style=\"display: flex; flex-direction: row; background-color: white; margin-bottom: 20px; box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);border-radius: 20px;\">\n" +
+                    "                <div style=\"margin-left: 23px\" class=\"team_score_number\">\n" +
+                    "                    <text id=\"team_score_number\">N</text>\n" +
+                    "                </div>\n" +
+                    "                <div class=\"team_score_static\">\n" +
+                    "                    <text style=\"padding-bottom: 4px\">\n" +
+                    "                        счёт\n" +
+                    "                    </text>\n" +
+                    "                    <text>\n" +
+                    "                        команды\n" +
+                    "                    </text>\n" +
+                    "                </div>\n" +
+                    "            </div>\n" +
+                    "            <table class=\"third_screen\" id=\"team_members\">\n" +
+                    "\n" +
+                    "            </table>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"game_content\" style=\"display: flex; margin-left: 5%; flex-direction: column;\">\n" +
+                    "            <text style=\"font-family: RobotoBold; margin-top: 90px; margin-left: 20px; padding-right: 30px;\">Достижения команды</text>\n" +
+                    "            <div class=\"team_achievements\" id=\"team_achievements\" style=\"width: 300px; height: 80px; margin-left: 20px; background-color: white;  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);border-radius: 20px; overflow-x:auto;display: flex; flex-direction: row;\">\n" +
+                    "                    <img src=\"http://10.20.2.219:8000/actum/team_awards/1.png\" width-100%; height=100%>\n" +
+                    "                    <img src=\"http://10.20.2.219:8000/actum/team_awards/2.png\" width-100%; height=100%>\n" +
+                    "                    <img src=\"http://10.20.2.219:8000/actum/team_awards/3.png\" width-100%; height=100%>\n" +
+                    "                    <img src=\"http://10.20.2.219:8000/actum/team_awards/4.png\" width-100%; height=100%>\n" +
+                    "                    <img src=\"http://10.20.2.219:8000/actum/team_awards/5.png\" width-100%; height=100%>\n" +
+                    "                    <img src=\"http://10.20.2.219:8000/actum/team_awards/6.png\" width-100%; height=100%>\n" +
+                    "                    <img src=\"http://10.20.2.219:8000/actum/team_awards/7.png\" width-100%; height=100%>\n" +
+                    "                    <img src=\"http://10.20.2.219:8000/actum/team_awards/8.png\" width-100%; height=100%>\n" +
+                    "                    <img src=\"http://10.20.2.219:8000/actum/team_awards/9.png\" width-100%; height=100%>\n" +
+                    "            </div>\n" +
+                    "            <div class=\"dragons_place\" style=\"width: 300px; height: 200px; margin-top: 5%;\">\n" +
+                    "                <text>Текущие драконы: </text>\n" +
+                    "                <a onclick='openForm(2)'><img src=\"http://10.20.2.219:8000/actum/last/6x.png\" style=\"margin-top: 5%;cursor: pointer; onclick='openForm(2)';\"></a>\n" +
+                    "            </div>\n" +
+                    "        </div>";
+            function addnewmember(i) {
+
+                var req = new XMLHttpRequest();
+                req.open("GET", localhost + "/actum/employee/" + i + "/", false);
+                req.send(null);
+
+                var global_json = req.response;
+                var obj = JSON.parse(global_json);
+
+                var source = 'http://10.20.2.219:8000/actum/images/' + i + '.jpg';
+
+                var res = "<tr><td style='width: 60px'><img src='" + source +  "' width='100%'; height='100%'></td><td style='margin-left: 30px; text-align: center; font-size: 18px;'>" + obj.name + "</td></tr>";
+
+                return res;
+
+            }
+
+                var req = new XMLHttpRequest();
+                req.open("GET", localhost + "/actum/employee/6/", false);
+                req.send(null);
+
+                var global_json = req.response;
+                var obj = JSON.parse(global_json);
+
+                var team_score = document.getElementById("team_score_number");
+                team_score.innerHTML = "<font color = #2A6FBF>" + obj.team_points_per_day + "</font>";
+
+                var temp_HTML ="<tr><th style='width: 60px'>Фото</th><th>Имя</th></tr>";
+
+                temp_HTML+=addnewmember(1);
+                temp_HTML+=addnewmember(3);
+                temp_HTML+=addnewmember(6);
+                temp_HTML+=addnewmember(7);
+                temp_HTML+=addnewmember(8);
+                temp_HTML+=addnewmember(10);
+
+                var team_members = document.getElementById("team_members");
+
+                team_members.innerHTML = temp_HTML;
+                break;
+        }
+    }
+
+    loadpage(0);
+
+    function openForm(i){
+        switch (i) {
+            case(0):
+                document.getElementById("popup_text").innerHTML = "Множитель урона: <font size='32px' color='red'>X2</font><br> Множитель удачи: <font size='32px' color='red;'>X3</font><br>";
+                document.getElementById("popup").style.display = "block";
+                break;
+            case (2):
+                document.getElementById("popup_text").innerHTML = "<text style='font-size: 14px;'>Чтобы убить этого монстра следующие герои должны выполнить свою задачу:<br> <text style='font-size: 18px;'font-family='RobotoBold'>Джон Сноу</text><br></text>";
+                document.getElementById("popup").style.display = "block";
+                break;
+        }
+    }
+
+    function closeForm() {
+        document.getElementById("popup").style.display="none";
+    }
+
+<text></text>
+</script>
+
+</html>

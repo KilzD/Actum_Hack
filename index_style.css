@@ -1,0 +1,274 @@
+header {
+    padding: 0px;
+    margin: 0px;
+}
+
+.menu-main {
+    width: 100%;
+    border-left: 10px;
+    list-style: none; /*убираем маркеры списка*/
+    margin: 0; /*убираем отступы*/
+    padding-left: 0; /*убираем отступы*/
+    margin-top:0px; /*делаем отступ сверху*/
+    background: #ffffff; /*добавляем фон всему меню (заменив этот параметр, вы поменяете цвет всего меню)*/
+    height: 60px; /*задаем высоту*/
+    border-bottom: 1px solid rgba(216,218,230,.5);
+}
+
+header a {
+    padding-left: 3px;
+    padding-right: 3px;
+    float: left;
+    display: inline-block;
+    width: 120px;
+    font-family: RobotoBold;
+    font-weight: bold;
+    text-align: center;
+    line-height: 60px;
+    color:#777;
+    text-decoration:none;
+    cursor: pointer;
+    position:relative;
+}
+
+header a:after {
+    background-color: #2A6FBF;
+    display: block;
+    content: "";
+    height: 2px;
+    width: 0%;
+    left:50%;
+    position:absolute;
+    -webkit-transition: width .3s ease-in-out;
+    -moz--transition: width .3s ease-in-out;
+    transition: width .3s ease-in-out;
+    -webkit-transform:translateX(-50%);
+    -moz-transform:translateX(-50%);
+    transform:translateX(-50%);
+}
+
+header a:hover:after,
+header a:focus:after {
+    width: 100%;
+}
+
+.menu-bar{
+    position:fixed;
+    display: table-row;
+    z-index:500;
+    height: 1px;
+    width:100%;
+    box-sizing: border-box;
+}
+
+
+body{
+    margin:0px;
+    background-color: #f7f7f7;
+}
+
+.content{
+    display: flex;
+    flex-direction: row;
+}
+
+.left_side{
+    padding-top:60px;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+td, .third_screen th{
+    padding: 0px;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border: 2px solid #000000;
+
+}
+
+td:hover{
+    background-color: #B0B0B0;
+}
+
+.notifications_place{
+    margin-top: 8%;
+    margin-left: 15%;
+    min-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.avatar_container{
+    padding: 15px;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top:3%;
+    background-color: #ffffff;
+}
+
+.right_side{
+    margin-left: 10%;
+    padding-top:60px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.personal_information{
+    margin-right: 25%;
+    width: calc(60%);
+    background-color: white;
+    margin-top: 30px;
+    padding: 20px 0px 20px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.personal_information a{
+    font-family: RobotoLight;
+    font-size: 18px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #000000;
+    margin-right: 10px;
+}
+
+.content{
+    min-height: 800px;
+    background-color: #f7f7f7;
+}
+
+.back{
+    min-height: 800px;
+    background-color: #2A6FBF;
+    padding-left: 10%;
+    padding-right: 5%;
+    height: 100%;
+}
+
+.score_information{
+    display: flex;
+    flex-direction: row;
+}
+
+.personal_score{
+    display: flex;
+    flex-direction: row;
+}
+
+.personal_score_static{
+    display: flex;
+    flex-direction: column;
+}
+
+.personal_score_static text{
+    font-family: RobotoLight;
+}
+
+.personal_score_number{
+    font-size: 40px;
+    font-family: RobotoBold;
+    margin-right: 5px;
+}
+
+.team_score{
+    display: flex;
+    flex-direction: row;
+}
+
+.team_score_static{
+    display: flex;
+    flex-direction: column;
+}
+
+.team_score_static text{
+    font-family: RobotoLight;
+    margin-right: 5px;
+}
+
+.team_score_number{
+    font-size: 40px;
+    font-family: RobotoBold;
+    margin-right: 5px;
+}
+
+.daily_challenges text{
+    background-color: white;
+}
+
+.daily_challenges text:hover{
+    background-color: chartreuse;
+}
+
+.sprint_challenges text{
+    background-color: white;
+}
+
+.sprint_challenges text:hover{
+    background-color: cyan;
+}
+
+.personal_comparison_progress{
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    font-family: RobotoLight;
+    font-size: 20px;
+}
+
+.team_comparison_progress{
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    font-family: RobotoLight;
+    font-size: 20px;
+}
+
+.left_bar th{
+    font-family: RobotoBold;
+    height: 41px;
+    background-color: #ffffff;
+    border-right: 1px solid #777777;
+    border-left: 1px solid #777777;
+    border-bottom: 1px solid #777777;
+    border-top: 1px solid #777777;
+}
+
+.left_bar td{
+    height: 41px;
+}
+
+.right_bar td{
+    height: 41px;
+}
+
+.right_bar th{
+    font-family: RobotoBold;
+    height: 41px;
+    background-color: #ffffff;
+    border-right: 1px solid #777777;
+    border-left: 1px solid #777777;
+    border-bottom: 1px solid #777777;
+    border-top: 1px solid #777777;
+}
+
+.third_screen th{
+    font-family: RobotoBold;
+    height: 60px;
+    background-color: #ffffff;
+}
+
+.third_screen td{
+    height: 60px;
+}
+
+.achievements img{
+    width: 50px;
+    height: 50px;
+}
+
+.ignore{
+    
+}
